@@ -8,6 +8,7 @@ console.log("Script loaded");
 document.getElementById("saveCode").addEventListener("click", () => {
   const userCode = document.getElementById("userCode").value;
   if (userCode.length > 0) {
+    document.getElementById("status").textContent = "";
     fetch("https://chrome-extension-backend-rriv.onrender.com/user/validate", {
       method: "POST",
       headers: {
@@ -15,27 +16,24 @@ document.getElementById("saveCode").addEventListener("click", () => {
       },
       body: JSON.stringify({ code: userCode }),
     })
-      .then((response) => {
+      .then(async (response) => {
         console.log("response ", response);
+        let jsonBody = await response.json();
         if (response.ok) {
           console.log("Code saved in database");
           // Save the code in Chrome storage
           chrome.storage.sync.set({ userCode: userCode }, () => {
-            document.getElementById("status").textContent =
+            document.getElementById("success-status").textContent =
               "Code saved successfully!";
 
             // Send the code to your backend to save it in MongoDB
           });
         } else {
-          console.error("Failed to save code in database");
-          document.getElementById("status").textContent =
-            "Invalid code. Please enter a valid code.";
+          document.getElementById("status").textContent = jsonBody.message;
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
-        document.getElementById("status").textContent =
-          "Invalid code. Please enter a valid code.";
+        document.getElementById("status").textContent = error.message;
       });
   } else {
     document.getElementById("status").textContent =
@@ -51,6 +49,8 @@ document.getElementById("signUpButton").addEventListener("click", () => {
       "Please accept the terms and conditions.";
     return;
   }
+  document.getElementById("email-status").textContent = "";
+  document.getElementById("email-success-status").textContent = "";
   if (
     userEmail.length > 0 &&
     userEmail.includes("@") &&
@@ -64,19 +64,18 @@ document.getElementById("signUpButton").addEventListener("click", () => {
       },
       body: JSON.stringify({ email: userEmail }),
     })
-      .then((response) => {
+      .then(async (response) => {
+        const jsonData = await response.json();
         if (response.ok) {
           console.log("Email Created in database");
           document.getElementById("email-success-status").textContent =
-            "Code is sent to your email. Please add that code in below input to verify!";
+            jsonData.message;
         } else {
-          console.error("Failed to save code in database");
           document.getElementById("email-status").textContent =
-            "Error in creating email. Please try again.";
+            jsonData.message;
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
         document.getElementById("email-status").textContent =
           "Error in validating Email. Please try again";
       });
