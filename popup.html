@@ -12,8 +12,13 @@
       box-sizing: border-box;
     }
     body {
-      font-size: 14px;
+      margin: 0px;
+      position: relative;
       min-width: 400px;
+    }
+    .body-class {
+      font-size: 14px;
+      position: absolute;
       padding: 20px;
       background: rgba(167, 215, 197, 1);
       display: flex;
@@ -51,6 +56,7 @@
       opacity: 1;
       z-index: 2;
       min-width: 50%;
+      max-width: 600px;
       font-family: Karla;
       position: relative;
       padding: 20px 20px;
@@ -93,7 +99,22 @@
       font-size: 1.2em;
       border-radius: 10px;
     }
+    .success-title {
+      font-size: 1.8rem;
+      padding: 5px 20px;
+      text-align: center;
+    }
+    .display-none {
+      display: none !important;
+    }
     .mini-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .success-icon {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -126,35 +147,46 @@
     }
   </style>
   <body>
-    <div class="box1"></div>
-    <div class="box2"></div>
-    <div class="form-container">
-      <div>
-        <h1 class="title">Find Visa Slot</h1>
-        <p class="subtitle">
-          Sign up to get notified whenever a visa slot opens
-        </p>
-      </div>
-      <div class="mini-form">
-        <input class="input" id="user-email" placeholder="Email Address" />
-        <div class="term-condition">
-          <input id="checkbox-input" type="checkbox" placeholder="" />
-          <span class="">I Agree with Terms and Conditions</span>
+    <div class="body-class">
+      <div class="box1"></div>
+      <div class="box2"></div>
+      <div class="form-container">
+        <div>
+          <h1 id="title" class="title">Find Visa Slot</h1>
+          <p class="subtitle">
+            Sign up to get notified whenever a visa slot opens
+          </p>
         </div>
-        <p class="error" id="email-status"></p>
-        <p class="success" id="email-success-status"></p>
-        <button id="signUpButton" class="button">GET ACCESS CODE</button>
-      </div>
-      <div class="mini-form">
-        <input
-          class="input"
-          maxlength="10"
-          id="userCode"
-          placeholder="Enter Access Code"
-        />
-        <p class="error" id="status"></p>
-        <p class="success" id="success-status"></p>
-        <button class="button" id="saveCode">VERIFY</button>
+        <div class="mini-form">
+          <input class="input" id="user-email" placeholder="Email Address" />
+          <div class="term-condition">
+            <input id="checkbox-input" type="checkbox" placeholder="" />
+            <span class="">I Agree with Terms and Conditions</span>
+          </div>
+          <p class="error" id="email-status"></p>
+          <p class="success" id="email-success-status"></p>
+          <button id="signUpButton" class="button">GET ACCESS CODE</button>
+        </div>
+        <div id="success-icon" class="success-icon display-none">
+          <img
+            src="https://img.icons8.com/?size=100&id=74MALSKkIxzx&format=png&color=000000"
+          />
+          <h2 class="success-title">
+            You have successfully signed up for getting notifications whenever a
+            new slot opens on your mail id
+          </h2>
+        </div>
+        <div class="mini-form">
+          <input
+            class="input"
+            maxlength="10"
+            id="userCode"
+            placeholder="Enter Access Code"
+          />
+          <p class="error" id="status"></p>
+          <p class="success" id="success-status"></p>
+          <button class="button" id="saveCode">VERIFY</button>
+        </div>
       </div>
     </div>
 

@@ -5,6 +5,26 @@
 // });
 console.log("Script loaded");
 
+function removeForm() {
+  const itemsList = document.getElementsByClassName("mini-form");
+  for (const element of itemsList) {
+    element.classList.add("display-none");
+  }
+  const itemList2 = document.getElementsByClassName("subtitle");
+  for (const element of itemList2) {
+    element.classList.add("display-none");
+  }
+  document.getElementById("title").textContent = "Awesome You are all set!";
+  document.getElementById("success-icon").classList.remove("display-none");
+}
+if (chrome.storage) {
+  chrome.storage.sync.get(["userCode"], (result) => {
+    if (result.userCode) {
+      removeForm();
+    }
+  });
+}
+
 document.getElementById("saveCode").addEventListener("click", () => {
   const userCode = document.getElementById("userCode").value;
   if (userCode.length > 0) {
@@ -25,6 +45,7 @@ document.getElementById("saveCode").addEventListener("click", () => {
           chrome.storage.sync.set({ userCode: userCode }, () => {
             document.getElementById("success-status").textContent =
               "Code saved successfully!";
+            removeForm();
 
             // Send the code to your backend to save it in MongoDB
           });

@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Screenshot Extension",
+  "name": "Find USA Slot",
   "version": "1.0",
   "host_permissions": [
     "*://*.cricbuzz.com/",
