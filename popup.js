@@ -29,7 +29,7 @@ document.getElementById("saveCode").addEventListener("click", () => {
   const userCode = document.getElementById("userCode").value;
   if (userCode.length > 0) {
     document.getElementById("status").textContent = "";
-    fetch("https://chrome-extension-backend-rriv.onrender.com/user/validate", {
+    fetch("http://16.16.27.18/user/validate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -37,10 +37,8 @@ document.getElementById("saveCode").addEventListener("click", () => {
       body: JSON.stringify({ code: userCode }),
     })
       .then(async (response) => {
-        console.log("response ", response);
         let jsonBody = await response.json();
         if (response.ok) {
-          console.log("Code saved in database");
           // Save the code in Chrome storage
           chrome.storage.sync.set({ userCode: userCode }, () => {
             document.getElementById("success-status").textContent =
@@ -78,7 +76,7 @@ document.getElementById("signUpButton").addEventListener("click", () => {
     userEmail.includes(".")
   ) {
     // Send the code to your backend to save it in MongoDB
-    fetch("https://chrome-extension-backend-rriv.onrender.com/user/register", {
+    fetch("http://16.16.27.18/user/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
