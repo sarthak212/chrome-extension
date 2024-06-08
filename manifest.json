@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Find USA Slot",
   "version": "1.0",
-  "host_permissions": ["*://*.cricbuzz.com/", "*://16.16.27.18/"],
+  "host_permissions": ["*://16.16.27.18/", "<all_urls>", "*://127.0.0.1/"],
   "permissions": [
     "activeTab",
     "scripting",
@@ -16,7 +16,7 @@
   },
   "content_scripts": [
     {
-      "matches": ["https://www.cricbuzz.com/*"],
+      "matches": ["http://127.0.0.1:5500/*"],
       "js": ["content.js"]
     }
   ],

@@ -1,2 +1,5 @@
 console.log("Content script loaded");
-chrome.runtime.sendMessage({action: "takeScreenshot"});
+
+chrome.runtime.sendMessage({
+  action: "takeScreenshot",
+});
