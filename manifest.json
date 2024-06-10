@@ -2,7 +2,11 @@
   "manifest_version": 3,
   "name": "Find USA Slot",
   "version": "1.0",
-  "host_permissions": ["*://16.16.27.18/", "<all_urls>", "*://127.0.0.1/"],
+  "host_permissions": [
+    "*://16.16.27.18/",
+    "*://127.0.0.1/",
+    "*://ais.usvisa-info.com/*"
+  ],
   "permissions": [
     "activeTab",
     "scripting",
@@ -16,7 +20,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["http://127.0.0.1:5500/*"],
+      "matches": [
+        "http://127.0.0.1:5500/*",
+        "https://ais.usvisa-info.com/en-ca/niv/schedule/*/appointment"
+      ],
       "js": ["content.js"]
     }
   ],
