@@ -5,6 +5,7 @@
   "host_permissions": [
     "*://16.16.27.18/",
     "*://127.0.0.1/",
+    "<all_urls>",
     "*://ais.usvisa-info.com/*"
   ],
   "permissions": [
