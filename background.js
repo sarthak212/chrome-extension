@@ -26,6 +26,7 @@ chrome.runtime.onInstalled.addListener(() => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log("Action on background ", request.action);
   if (request.action === "takeScreenshot") {
     console.log("Taking screenshot...", request.data);
     chrome.storage.sync.get(["userCode"], (result) => {
@@ -98,66 +99,73 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
               const { selectedValue, results: dateResults } =
                 injectedResults[0].result;
 
-              chrome.tabs.captureVisibleTab(
-                null,
-                { format: "png" },
-                function (dataUrl) {
-                  if (chrome.runtime.lastError) {
-                    console.log(
-                      "Failed to capture tab:",
-                      chrome.runtime.lastError.message
-                    );
-                    sendResponse({
-                      success: false,
-                      error: chrome.runtime.lastError.message,
-                    });
-                  } else {
-                    console.log("Screenshot taken:", dataUrl);
+              if (dateResults.length) {
+                console.log("Dates found");
+                chrome.tabs.captureVisibleTab(
+                  null,
+                  { format: "png" },
+                  function (dataUrl) {
+                    if (chrome.runtime.lastError) {
+                      console.log(
+                        "Failed to capture tab:",
+                        chrome.runtime.lastError.message
+                      );
+                      sendResponse({
+                        success: false,
+                        error: chrome.runtime.lastError.message,
+                      });
+                    } else {
+                      console.log("Screenshot taken:", dataUrl);
 
-                    fetch("http://16.16.27.18/slot/update", {
-                      method: "POST",
-                      headers: {
-                        Authorization: `Bearer ${result.userCode}`,
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({
-                        location: selectedValue,
-                        dates: dateResults,
-                      }),
-                    })
-                      .then(async (response) => {
-                        const body = await response.json();
-                        console.log(response, "response value is here", body);
-
-                        if (response.ok) {
-                          console.log("Slot info saved in database");
-                        } else {
-                          console.log("Failed to save slot info in database");
-                        }
+                      fetch("http://16.16.27.18/slot/update", {
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${result.userCode}`,
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                          location: selectedValue,
+                          dates: dateResults,
+                        }),
                       })
-                      .catch((error) => console.log("Error:", error));
+                        .then(async (response) => {
+                          const body = await response.json();
+                          console.log(response, "response value is here", body);
 
-                    fetch("http://16.16.27.18/slot/upload", {
-                      method: "POST",
-                      headers: {
-                        Authorization: `Bearer ${result.userCode}`,
-                        "Content-Type": "application/json",
-                      },
-                      body: JSON.stringify({ file: dataUrl }),
-                    })
-                      .then((response) => {
-                        console.log(response, "response value is here");
-                        if (response.ok) {
-                          console.log("Screenshot saved in database");
-                        } else {
-                          console.log("Failed to save screenshot in database");
-                        }
+                          if (response.ok) {
+                            console.log("Slot info saved in database");
+                          } else {
+                            console.log("Failed to save slot info in database");
+                          }
+                        })
+                        .catch((error) => console.log("Error:", error));
+
+                      fetch("http://16.16.27.18/slot/upload", {
+                        method: "POST",
+                        headers: {
+                          Authorization: `Bearer ${result.userCode}`,
+                          "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ file: dataUrl }),
                       })
-                      .catch((error) => console.log("Error:", error));
-                    sendResponse({ success: true, dataUrl: dataUrl });
+                        .then((response) => {
+                          console.log(response, "response value is here");
+                          if (response.ok) {
+                            console.log("Screenshot saved in database");
+                          } else {
+                            console.log(
+                              "Failed to save screenshot in database"
+                            );
+                          }
+                        })
+                        .catch((error) => console.log("Error:", error));
+                      sendResponse({ success: true, dataUrl: dataUrl });
+                    }
                   }
-                }
-              );
+                );
+              } else {
+                console.log("Dates not found");
+              }
             }
           );
         } else {
