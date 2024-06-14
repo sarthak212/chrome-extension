@@ -67,13 +67,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                       "what all this value is ???"
                     );
                     if (dataYear && dataMonth && aTagValue) {
-                      results.push(
-                        new Date(
-                          parseInt(dataYear),
-                          parseInt(dataMonth) - 1,
-                          parseInt(aTagValue)
-                        ).toISOString()
-                      );
+                      results.push({
+                        month: parseInt(dataMonth),
+                        year: parseInt(dataYear),
+                        date: parseInt(aTagValue),
+                      });
                     }
                   }
                 });
