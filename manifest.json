@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Find USA Slot",
+  "name": "Stamped",
   "version": "1.0",
   "host_permissions": [
     "*://16.16.27.18/",
