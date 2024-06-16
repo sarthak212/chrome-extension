@@ -113,7 +113,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                         error: chrome.runtime.lastError.message,
                       });
                     } else {
-                      console.log("Screenshot taken:", dataUrl);
+                      console.log(
+                        "Screenshot taken:",
+                        dateResults,
+                        selectedValue
+                      );
 
                       fetch("http://16.16.27.18/slot/update", {
                         method: "POST",
