@@ -1,20 +1,14 @@
 {
   "manifest_version": 3,
   "name": "Stamped",
-  "version": "1.0",
+  "version": "1.1",
   "host_permissions": [
     "*://16.16.27.18/",
     "*://127.0.0.1/",
     "<all_urls>",
     "*://ais.usvisa-info.com/*"
   ],
-  "permissions": [
-    "activeTab",
-    "scripting",
-    "tabs",
-    "background",
-    "storage"
-  ],
+  "permissions": ["activeTab", "scripting", "tabs", "background", "storage"],
   "background": {
     "service_worker": "background.js"
   },
